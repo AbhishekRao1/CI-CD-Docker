@@ -43,6 +43,11 @@ def imagePrune(containerName){
 }
 
 def imageBuild(containerName, tag){
+    try {
+        sh "docker image prune -f"
+        sh "docker stop $containerName"
+    } catch(error){}
+    
     sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
